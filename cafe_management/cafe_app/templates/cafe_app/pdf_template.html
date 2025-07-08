@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Bill PDF</title>
+    <style>
+        body { font-family: sans-serif; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #333; padding: 8px; text-align: left; }
+    </style>
+</head>
+<body>
+    <h2>Bill for Order #{{ order.id }}</h2>
+    <p>Customer: {{ order.customer_name }}</p>
+    <p>Date: {{ order.created_at|date:"Y-m-d H:i" }}</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Qty</th>
+                <th>Price (₹)</th>
+                <th>Total (₹)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order_items %}
+            <tr>
+                <td>{{ item.menu_item.name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.menu_item.price }}</td>
+                <td>{{ item.menu_item.price|floatformat:2|add:""|floatformat:2|add:""|floatformat:2|add:""|floatformat:2|floatformat:2|stringformat:"f" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h4>Total: ₹{{ order.total_price }}</h4>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Place Order | Cafe</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 40px;
+        }
+        .card {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="text-center mb-4">🧾 Place Your Order</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="customer_name" class="form-label">Customer Name</label>
+                <input type="text" class="form-control" id="customer_name" name="customer_name" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Payment Method</label><br>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="payment_method" id="cash" value="Cash" required>
+                    <label class="form-check-label" for="cash">💵 Cash</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="payment_method" id="upi" value="UPI" required>
+                    <label class="form-check-label" for="upi">📲 UPI</label>
+                </div>
+            </div>
+
+            <h4 class="mt-4">☕ Menu Items</h4>
+            <div class="row">
+                {% for item in menu_items %}
+                <div class="col-md-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.name }}</h5>
+                            <p class="card-text">{{ item.description|default:"No description." }}</p>
+                            <p><strong>₹{{ item.price }}</strong> | Stock: {{ item.stock }}</p>
+                            <label for="quantity_{{ item.id }}">Quantity</label>
+                            <input type="number" name="quantity_{{ item.id }}" min="0" max="{{ item.stock }}" value="0" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p>No items available.</p>
+                {% endfor %}
+            </div>
+
+            <div class="mt-4 text-end">
+                <button type="submit" class="btn btn-success">✅ Place Order</button>
+                <a href="{% url 'dashboard' %}" class="btn btn-secondary">🏠 Back to Dashboard</a>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

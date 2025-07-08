@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UPI Payment | Cafe Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to right, #e9f7ef, #ffffff);
+        }
+        .upi-container {
+            max-width: 600px;
+            margin: 60px auto;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .upi-heading {
+            color: #28a745;
+        }
+        .qr-box {
+            border: 2px dashed #28a745;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="upi-container">
+        <h2 class="text-center upi-heading">💸 UPI Payment</h2>
+        <p class="text-center">Scan the QR code below using your preferred UPI app and complete the payment.</p>
+
+        <div class="qr-box">
+            <img src="{{ qr_code_url }}" alt="UPI QR Code" class="img-fluid" width="250">
+            <p class="mt-3">Pay to UPI ID: <strong>{{ upi_id }}</strong></p>
+            <p>Order Amount: <strong>₹{{ amount }}</strong></p>
+        </div>
+
+        <form method="post" action="{% url 'confirm_payment' order_id=order.id %}">
+            {% csrf_token %}
+            <div class="text-center">
+                <button type="submit" class="btn btn-success">✅ Confirm Payment</button>
+                <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary ms-2">🔙 Dashboard</a>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+<!-- ✅ To view this page:
+Visit: http://127.0.0.1:8000/payment/<order_id>/
+Replace <order_id> with a valid order number -->

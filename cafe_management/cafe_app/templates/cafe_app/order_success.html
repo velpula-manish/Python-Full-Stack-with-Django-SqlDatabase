@@ -1,0 +1,11 @@
+<!-- cafe_app/templates/cafe_app/order_success.html -->
+<!DOCTYPE html>
+<html>
+<head><title>Order Success</title></head>
+<body>
+    <h2>Order Placed Successfully!</h2>
+    <p><a href="{% url 'generate_bill' order.id %}">Generate Bill</a></p>
+    <p><a href="{% url 'bill' order.id %}">View Bill</a></p>
+    <p><a href="{% url 'initiate_upi_payment' order.id %}">UPI Payment</a></p>
+</body>
+</html>
